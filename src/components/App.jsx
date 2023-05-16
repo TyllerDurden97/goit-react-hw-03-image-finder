@@ -3,14 +3,14 @@ import { Component } from "react";
 import { Searchbar } from "./Searchbar/Searchbar";
 // import axios from 'axios';
 import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Modal } from 'components/Modal/Modal';
+// import { Modal } from 'components/Modal/Modal';
 
 export class App extends Component {
 
    state = {
       searchRequest: '',
-      showModal: false,
-      receivedData: [],
+      // showModal: false,
+      // receivedData: [],
    };
 
    handleFormSubmit = (searchRequest) => {
@@ -18,10 +18,10 @@ export class App extends Component {
       this.setState({ searchRequest });
    };
 
-   togleModal = () => {
-      this.setState(state => ({
-         showModal: !state.showModal}))
-   }
+   // togleModal = () => {
+   //    this.setState(state => ({
+   //       showModal: !state.showModal}))
+   // }
 
    // handleReceivedData = (receivedData) => {
    //    this.setState({ receivedData });
@@ -49,7 +49,7 @@ export class App extends Component {
             <>
                <Searchbar FormSubmit={this.handleFormSubmit} />
                
-               <ImageGallery receivedData={this.handleReceivedData} searchRequest={searchRequest} />
+               <ImageGallery searchRequest={searchRequest} />
                
             </>
             

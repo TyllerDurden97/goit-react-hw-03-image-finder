@@ -59,12 +59,11 @@ export class ImageGallery extends Component {
       }
       if (status === 'resolved') {
          return (<>         
-          <ul className="gallery">
-               {receivedData.map(dataArr => (
-                  <ImageGalleryItem
-                     key={dataArr.id}
-                     receivedData={dataArr}
-                  />         
+          <ul
+         className="gallery">
+         {receivedData.map(({ id, webformatURL, largeImageURL, tags }) => (
+         <ImageGalleryItem key={id} webformatURL={webformatURL} tags={tags} />
+         
          ))}
          </ul>
             <Button onClick={this.hadleBtnLoadMore} />
