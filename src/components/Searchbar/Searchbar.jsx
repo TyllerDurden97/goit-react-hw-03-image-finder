@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 // import PropTypes from 'prop-types';
 import Notiflix from 'notiflix';
+import { GoSearch } from "react-icons/go";
+import css from 'components/Searchbar/Searchbar.module.css'
 
 
 export class Searchbar extends Component {
@@ -28,20 +30,27 @@ export class Searchbar extends Component {
    
    render() {
       return (
-   <header className="searchbar">
+   <header className={css.searchbar}>
             <form
-               className="form"
-               onSubmit={this.handleSubmitSearch}        
+               className={css.searchForm}
+               onSubmit={this.handleSubmitSearch}       
 >
    <button
       type="submit"
-      className="button"
+      className={css.searchFormButton}
                >
-      <span className="button-label">Search</span>
+                                       {/* <GoSearch size="30" className={css.svg} /> */}
+
+                  <span
+                     className={css.searchFormButtonLabel}
+                  >
+                     <GoSearch size="30" className={css.svg} />
+
+                  </span>
    </button>
 
     <input
-      // class="input"
+     className={css.searchFormInput}
       name="input"            
       type="text"
       autoComplete="off"
@@ -49,9 +58,8 @@ export class Searchbar extends Component {
       placeholder="Search images and photos"
       onChange={this.handleInputChange}            
     />
-  </form>
+            </form>
 </header>   
       )
-   };
-     
-}
+   };     
+};

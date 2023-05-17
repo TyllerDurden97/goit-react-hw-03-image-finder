@@ -14,8 +14,6 @@
 .modal {
   max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
-  width: 700px;
-  height: 400px;
   position: absolute;
   top: 50%;
   left: 50%;

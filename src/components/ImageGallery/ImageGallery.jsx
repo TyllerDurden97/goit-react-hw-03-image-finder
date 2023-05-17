@@ -1,13 +1,13 @@
 import { Component } from 'react';
 // import PropTypes from 'prop-types';
-// import Notiflix from 'notiflix';
+import Notiflix from 'notiflix';
 // import axios from 'axios';
 import { fetchAPI } from '../../services/fetchAPI';
 import { Button } from 'components/Button/Button';
 import { Loader } from 'components/Loader/Loader';
 import {ImageGalleryItem} from 'components/ImageGalleryItem/ImageGalleryItem'
 import css from 'components/ImageGallery/ImageGallery.module.css';
-import { Modal } from 'components/Modal/Modal';
+// import { Modal } from 'components/Modal/Modal';
 
 
 export class ImageGallery extends Component {
@@ -16,7 +16,6 @@ export class ImageGallery extends Component {
       error: null,
       status: 'idle',
       page: 1,
-      showModal: false,
 
    }
 
@@ -30,16 +29,19 @@ export class ImageGallery extends Component {
          setTimeout(() => {
          fetchAPI.fetchPixabay(nextSearchRequest, page)
             .then(resp => {
-               this.setState((prevState) => ({
+               console.log(resp)
+
+               if (resp.total === 0) {
+                   this.setState({status: 'idle' });
+                   Notiflix.Notify.info(`No images for ${nextSearchRequest}`.toUpperCase());
+               } else {this.setState((prevState) => ({
                   receivedData: [...prevState.receivedData, ...resp.hits],
                   status: 'resolved'
                }))
-               // console.log(resp)
-               // this.props.receivedData(this.state.receivedData);
-
+               };
                })
                .catch(error => this.setState({ error, status: 'rejected' }))
-         }, 2000);
+         }, 1000);
       }
       if (nextSearchRequest !== prevSearchRequest) {
           this.setState({ receivedData: [], page: 1 });
@@ -49,17 +51,13 @@ export class ImageGallery extends Component {
     hadleBtnLoadMore = (event) => {
        this.setState(prevState => ({ page: prevState.page + 1 }));
       //  event.scrollIntoViewscrollIntoView({ block: "end", behavior: "smooth" });
-   }
-   togleModal = () => {
-      this.setState(state => ({
-         showModal: !state.showModal}))
-   }
+   }  
 
    render() {
-      const { receivedData, error, status, showModal } = this.state;
+      const { receivedData, error, status } = this.state;
 
       if (status === 'idle') {
-         return <div>Please type search request</div>
+         return <div className={css.imageGalleryIdle}>Please type search request</div>
       }
       if (status === 'pending') {
          return <Loader/>
@@ -72,18 +70,18 @@ export class ImageGallery extends Component {
          return (<>   
           <ul
          className={css.imageGallery}>
-         {receivedData.map(({ id, webformatURL, largeImageURL, tags }) => (
-         <ImageGalleryItem key={id} OpenCloseModal={this.togleModal} webformatURL={webformatURL} tags={tags} />
+         {receivedData.length > 0 && receivedData.map(({ id, webformatURL, largeImageURL, tags }) => (
+         <ImageGalleryItem key={id} webformatURL={webformatURL} largeImageURL={largeImageURL} tags={tags} />
          ))}
          </ul>
-            {receivedData.length >= 12 && <Button onClick={this.hadleBtnLoadMore} />}
-            {showModal && (<Modal onClose={this.togleModal}>
-               {/* <img src={largeImageURL} alt={tags} /> */}
-            </Modal >)}
+            {receivedData.length >= 12 && <Button onClick={this.hadleBtnLoadMore} />}          
          </>
          )
-         }
-   }
+      };
+   };
 }
 
 // largeImageURL={largeImageURL} tags={tags}
+//   {showModal && (<Modal onClose={this.togleModal}>
+//                {/* <img src={largeImageURL} alt={tags} /> */}
+//             </Modal >)}
