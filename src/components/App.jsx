@@ -9,7 +9,6 @@ export class App extends Component {
 
    state = {
       searchRequest: '',
-      // showModal: false,
       // receivedData: [],
    };
 
@@ -44,12 +43,12 @@ export class App extends Component {
    }
 
    render() {
-      const { searchRequest, showModal } = this.state;
+      const { searchRequest } = this.state;
          return (
             <>
-               <Searchbar FormSubmit={this.handleFormSubmit} />
+               <Searchbar formSubmit={this.handleFormSubmit} />
                
-               <ImageGallery searchRequest={searchRequest} />
+            <ImageGallery searchRequest={searchRequest} />
                
             </>
             

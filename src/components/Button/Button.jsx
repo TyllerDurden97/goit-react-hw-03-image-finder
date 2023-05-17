@@ -5,7 +5,7 @@ import React from "react";
 export const Button = ({ onClick }) => (
    <button         
             type="button"
-            onClick={onClick}
+      onClick={onClick}
       // {/* className={css.filterInpt} */}
    >
       Load more         

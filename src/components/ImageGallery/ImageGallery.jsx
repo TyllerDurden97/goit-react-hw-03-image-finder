@@ -6,7 +6,8 @@ import { fetchAPI } from '../../services/fetchAPI';
 import { Button } from 'components/Button/Button';
 import { Loader } from 'components/Loader/Loader';
 import {ImageGalleryItem} from 'components/ImageGalleryItem/ImageGalleryItem'
-
+import css from 'components/ImageGallery/ImageGallery.module.css';
+import { Modal } from 'components/Modal/Modal';
 
 
 export class ImageGallery extends Component {
@@ -15,13 +16,15 @@ export class ImageGallery extends Component {
       error: null,
       status: 'idle',
       page: 1,
+      showModal: false,
+
    }
 
    componentDidUpdate(prevProps, prevState) {
       const prevSearchRequest = prevProps.searchRequest;
       const nextSearchRequest = this.props.searchRequest;
       const { page } = this.state;
-      console.log(nextSearchRequest);
+      // console.log(nextSearchRequest);
       if (nextSearchRequest !== prevSearchRequest || prevState.page !== page) {
          this.setState({ status: 'pending' });
          setTimeout(() => {
@@ -31,21 +34,29 @@ export class ImageGallery extends Component {
                   receivedData: [...prevState.receivedData, ...resp.hits],
                   status: 'resolved'
                }))
-               //  this.props.receivedData(this.state.receivedData);
-                  // console.log(prevState.receivedData)
+               // console.log(resp)
+               // this.props.receivedData(this.state.receivedData);
+
                })
                .catch(error => this.setState({ error, status: 'rejected' }))
          }, 2000);
       }
+      if (nextSearchRequest !== prevSearchRequest) {
+          this.setState({ receivedData: [], page: 1 });
+      }
      }
 
-    hadleBtnLoadMore = () => {
-      // let page = this.state.page;
-      this.setState(prevState => ({ page: prevState.page + 1 }));
+    hadleBtnLoadMore = (event) => {
+       this.setState(prevState => ({ page: prevState.page + 1 }));
+      //  event.scrollIntoViewscrollIntoView({ block: "end", behavior: "smooth" });
+   }
+   togleModal = () => {
+      this.setState(state => ({
+         showModal: !state.showModal}))
    }
 
    render() {
-      const { receivedData, error, status } = this.state;
+      const { receivedData, error, status, showModal } = this.state;
 
       if (status === 'idle') {
          return <div>Please type search request</div>
@@ -58,16 +69,21 @@ export class ImageGallery extends Component {
          return console.log(error.message)
       }
       if (status === 'resolved') {
-         return (<>         
+         return (<>   
           <ul
-         className="gallery">
+         className={css.imageGallery}>
          {receivedData.map(({ id, webformatURL, largeImageURL, tags }) => (
-         <ImageGalleryItem key={id} webformatURL={webformatURL} tags={tags} />
-         
+         <ImageGalleryItem key={id} OpenCloseModal={this.togleModal} webformatURL={webformatURL} tags={tags} />
          ))}
          </ul>
-            <Button onClick={this.hadleBtnLoadMore} />
-         </>)
+            {receivedData.length >= 12 && <Button onClick={this.hadleBtnLoadMore} />}
+            {showModal && (<Modal onClose={this.togleModal}>
+               {/* <img src={largeImageURL} alt={tags} /> */}
+            </Modal >)}
+         </>
+         )
          }
    }
 }
+
+// largeImageURL={largeImageURL} tags={tags}

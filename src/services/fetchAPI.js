@@ -1,9 +1,8 @@
 function fetchPixabay(name, page) {
-          console.log(page)
 
    return  fetch(`
          https://pixabay.com/api/?key=29462445-ad519f5c94a1ccd9fe6c99f35&q=${name}
-         &image_type=photo&orientation=horizontal&safesearch=true&per_page=12&${page}`)
+         &image_type=photo&orientation=horizontal&safesearch=true&per_page=12&page=${page}`)
                .then(resp => {
                   if (resp.ok) {
                      return resp.json();

@@ -16,12 +16,13 @@ export class Searchbar extends Component {
    handleSubmitSearch = event => {
       event.preventDefault();
       if (this.state.searchRequest.trim() === '') {
-         Notiflix.Notify.info("Please type search request.".toUpperCase());
+         Notiflix.Notify.info("Please type search request".toUpperCase());
          return;
       };
-      this.props.FormSubmit(this.state.searchRequest);
       this.setState({ searchRequest:''});
-      // console.log(this.state);
+      this.props.formSubmit(this.state.searchRequest);
+      event.target.elements.input.value = '';
+      // console.log(event.target.elements.input.value);
 
 }
    
@@ -41,6 +42,7 @@ export class Searchbar extends Component {
 
     <input
       // class="input"
+      name="input"            
       type="text"
       autoComplete="off"
       autoFocus
