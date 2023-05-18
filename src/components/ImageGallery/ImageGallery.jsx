@@ -23,7 +23,6 @@ export class ImageGallery extends Component {
 
       if (nextSearchRequest !== prevSearchRequest || prevState.page !== page) {
          this.setState({ status: 'pending' });
-         setTimeout(() => {
          fetchAPI.fetchPixabay(nextSearchRequest, page)
             .then(resp => {
                if (resp.total === 0) {
@@ -36,7 +35,6 @@ export class ImageGallery extends Component {
                };
                })
                .catch(error => this.setState({ error, status: 'rejected' }))
-         }, 1000);
       }
       if (nextSearchRequest !== prevSearchRequest) {
           this.setState({ receivedData: [], page: 1 });
@@ -51,7 +49,7 @@ export class ImageGallery extends Component {
       const { receivedData, error, status } = this.state;
 
       return (<>
-         { status === 'idle' && <div className={css.imageGalleryIdle}>Please type search request</div> }
+         {status === 'idle' && <div className={css.imageGalleryIdle}>Please type search request</div> }
          {status === 'pending' && <Loader/> }
          {status === 'rejected' && console.log(error.message)}
          {status === 'resolved' && <>
