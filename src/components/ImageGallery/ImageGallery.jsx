@@ -1,14 +1,11 @@
 import { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Notiflix from 'notiflix';
-// import axios from 'axios';
 import { fetchAPI } from '../../services/fetchAPI';
 import { Button } from 'components/Button/Button';
 import { Loader } from 'components/Loader/Loader';
 import {ImageGalleryItem} from 'components/ImageGalleryItem/ImageGalleryItem'
 import css from 'components/ImageGallery/ImageGallery.module.css';
-// import { Modal } from 'components/Modal/Modal';
-
 
 export class ImageGallery extends Component {
    state = {
@@ -23,14 +20,12 @@ export class ImageGallery extends Component {
       const prevSearchRequest = prevProps.searchRequest;
       const nextSearchRequest = this.props.searchRequest;
       const { page } = this.state;
-      // console.log(nextSearchRequest);
+
       if (nextSearchRequest !== prevSearchRequest || prevState.page !== page) {
          this.setState({ status: 'pending' });
          setTimeout(() => {
          fetchAPI.fetchPixabay(nextSearchRequest, page)
             .then(resp => {
-               console.log(resp)
-
                if (resp.total === 0) {
                    this.setState({status: 'idle' });
                    Notiflix.Notify.info(`No images for ${nextSearchRequest}`.toUpperCase());
@@ -50,7 +45,6 @@ export class ImageGallery extends Component {
 
     hadleBtnLoadMore = (event) => {
        this.setState(prevState => ({ page: prevState.page + 1 }));
-      //  event.scrollIntoViewscrollIntoView({ block: "end", behavior: "smooth" });
    }  
 
    render() {
@@ -81,7 +75,6 @@ export class ImageGallery extends Component {
    };
 }
 
-// largeImageURL={largeImageURL} tags={tags}
-//   {showModal && (<Modal onClose={this.togleModal}>
-//                {/* <img src={largeImageURL} alt={tags} /> */}
-//             </Modal >)}
+ImageGallery.propTypes = {
+       searchRequest: PropTypes.string.isRequired,
+}

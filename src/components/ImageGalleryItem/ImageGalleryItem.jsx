@@ -1,14 +1,10 @@
 import { Component } from 'react';
 import { Modal } from 'components/Modal/Modal';
 import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css';
-
-
-
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 export class ImageGalleryItem extends Component {
    state = {
-      // largeImageURL: null,
       showModal: false,
    }
 
@@ -16,12 +12,6 @@ export class ImageGalleryItem extends Component {
       this.setState(state => ({
          showModal: !state.showModal}))
    }
-
-   // removeLinkFromState = () => {
-   //    if (!this.state.showModal) {
-   //       this.setState({largeImageURL: null})
-   //    };
-   // };
 
    render() {
       const { webformatURL, tags, largeImageURL } = this.props;
@@ -41,4 +31,8 @@ export class ImageGalleryItem extends Component {
    }
 }  
    
-  
+  ImageGalleryItem.propTypes = {
+     webformatURL: PropTypes.string.isRequired,
+     tags: PropTypes.string.isRequired,
+     largeImageURL: PropTypes.string.isRequired,
+}

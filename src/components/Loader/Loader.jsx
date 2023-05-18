@@ -3,7 +3,7 @@ import css from 'components/Loader/Loader.module.css';
 
 
 export const Loader = () => (
-   <div   className={css.loader}    
+   <div className={css.loader}    
 >
  <Dna
   visible={true}
@@ -13,10 +13,6 @@ export const Loader = () => (
   wrapperStyle={{}}
    wrapperClass="dna-wrapper"      
 />
-   </div>
-  
+   </div>  
 )
 
-
-
-// className={css.filterLabel}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { createPortal } from "react-dom";
-// import PropTypes from 'prop-types';
-// import Notiflix from 'notiflix';
+import PropTypes from 'prop-types';
 import css from 'components/Modal/Modal.module.css';
 
 const modalRoot = document.querySelector('#modal-root');
@@ -39,20 +38,7 @@ export class Modal extends Component {
    }
 }
 
+Modal.propTypes = {    
+     onClose: PropTypes.func.isRequired,
+}
 
-
-
-
-
-// import * as basicLightbox from 'basiclightbox'
-
-// const instance = basicLightbox.create(`
-//     <div class="modal">
-//         <p>
-//             Your first lightbox with just a few lines of code.
-//             Yes, it's really that simple.
-//         </p>
-//     </div>
-// `)
-
-// instance.show()
