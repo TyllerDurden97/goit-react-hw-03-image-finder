@@ -50,30 +50,25 @@ export class ImageGallery extends Component {
    render() {
       const { receivedData, error, status } = this.state;
 
-      if (status === 'idle') {
-         return <div className={css.imageGalleryIdle}>Please type search request</div>
-      }
-      if (status === 'pending') {
-         return <Loader/>
-
-      }
-      if (status === 'rejected') {
-         return console.log(error.message)
-      }
-      if (status === 'resolved') {
-         return (<>   
-          <ul
-         className={css.imageGallery}>
-         {receivedData.length > 0 && receivedData.map(({ id, webformatURL, largeImageURL, tags }) => (
-         <ImageGalleryItem key={id} webformatURL={webformatURL} largeImageURL={largeImageURL} tags={tags} />
-         ))}
-         </ul>
-            {receivedData.length >= 12 && <Button onClick={this.hadleBtnLoadMore} />}          
-         </>
-         )
-      };
+      return (<>
+         { status === 'idle' && <div className={css.imageGalleryIdle}>Please type search request</div> }
+         {status === 'pending' && <Loader/> }
+         {status === 'rejected' && console.log(error.message)}
+         {status === 'resolved' && <>
+            <ul
+               className={css.imageGallery}>
+               {receivedData.length > 0 && receivedData.map(({ id, webformatURL, largeImageURL, tags }) => (
+                  <ImageGalleryItem key={id} webformatURL={webformatURL} largeImageURL={largeImageURL} tags={tags} />
+               ))}
+            </ul>
+            {receivedData.length >= 12 && <Button onClick={this.hadleBtnLoadMore} />}
+             </>
+         }
+      </>
+      );  
    };
-}
+};
+
 
 ImageGallery.propTypes = {
        searchRequest: PropTypes.string.isRequired,
